@@ -8,6 +8,7 @@ export default class Users extends BaseSchema {
       table.increments('id')
       table.string('username').notNullable()
       table.string('name')
+      table.boolean('status').notNullable().defaultTo(true)
       table.timestamps(true, true)
     })
   }

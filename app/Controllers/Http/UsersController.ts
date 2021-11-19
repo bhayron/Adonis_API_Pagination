@@ -24,4 +24,10 @@ export default class UsersController {
     //const all = await User.all()
     //return all
   }
+
+  public async delete({ params }: HttpContextContract) {
+    const post = await User.findOrFail(params.id)
+
+    await post.delete()
+  }
 }
