@@ -17,7 +17,7 @@ export default class UsersController {
     const page = request.input('page', 1)
     const perPage = request.input('per_page', 5)
 
-    const users = await User.query().paginate(page, perPage)
+    const users = await User.query().orderBy('id', 'desc').paginate(page, perPage)
 
     return response.json(users)
 
