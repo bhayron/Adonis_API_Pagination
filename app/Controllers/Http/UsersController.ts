@@ -1,6 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
-import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class UsersController {
   public async index({ request, response }: HttpContextContract) {
@@ -13,7 +12,7 @@ export default class UsersController {
       ? await User.query()
           .select('*')
           .where('name', 'like', '%' + name + '%')
-          // .orWhere('username', 'like', '%' + name + '%')
+          .orWhere('username', 'like', '%' + name + '%')
           .orderBy('id', 'desc')
           .paginate(page, perPage)
       : await User.query().orderBy('id', 'desc').paginate(page, perPage)
