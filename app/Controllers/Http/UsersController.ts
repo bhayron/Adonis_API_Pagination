@@ -1,7 +1,29 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class UsersController {
+  public async index({ request, response }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const perPage = request.input('per_page', 5)
+
+    const name = request.input('name')
+
+    const users = name
+      ? await User.query()
+          .select('*')
+          .where('name', 'like', '%' + name + '%')
+          // .orWhere('username', 'like', '%' + name + '%')
+          .orderBy('id', 'desc')
+          .paginate(page, perPage)
+      : await User.query().orderBy('id', 'desc').paginate(page, perPage)
+
+    return response.json(users)
+
+    //const all = await User.all()
+    //return all
+  }
+
   public async create({ request }: HttpContextContract) {
     const { username, name } = request.only(['name', 'username'])
     //console.log(username, name)
@@ -11,18 +33,6 @@ export default class UsersController {
       name,
     })
     return user
-  }
-
-  public async index({ request, response }: HttpContextContract) {
-    const page = request.input('page', 1)
-    const perPage = request.input('per_page', 5)
-
-    const users = await User.query().orderBy('id', 'desc').paginate(page, perPage)
-
-    return response.json(users)
-
-    //const all = await User.all()
-    //return all
   }
 
   public async show({ params }: HttpContextContract) {
