@@ -5,7 +5,9 @@ Route.get('/', async () => {
 })
 
 Route.get('/users', 'UsersController.index')
+Route.get('/users/:id', 'UsersController.show')
 Route.post('/users', 'UsersController.create')
+Route.put('/users/:id', 'UsersController.update')
 Route.delete('/users/:id', 'UsersController.delete')
 
 // Route.get('/posts', 'PostsController.index')

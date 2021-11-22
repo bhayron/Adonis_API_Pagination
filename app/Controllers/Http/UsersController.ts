@@ -25,6 +25,22 @@ export default class UsersController {
     //return all
   }
 
+  public async show({ params }: HttpContextContract) {
+    const user = await User.findOrFail(params.id)
+
+    return user
+  }
+
+  public async update({ request, params }: HttpContextContract) {
+    const user = await User.findOrFail(params.id)
+    const data = request.only(['name', 'username'])
+
+    user.merge(data)
+    await user.save()
+
+    return user
+  }
+
   public async delete({ params }: HttpContextContract) {
     const post = await User.findOrFail(params.id)
 
