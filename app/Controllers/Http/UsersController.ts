@@ -11,8 +11,10 @@ export default class UsersController {
     const users = name
       ? await User.query()
           .select('*')
-          .where('name', 'like', '%' + name + '%')
-          .orWhere('username', 'like', '%' + name + '%')
+          //.where('name', 'like', '%' + name + '%')
+          .where('name', 'like', `%${name}%`)
+          //.orWhere('username', 'like', '%' + name + '%')
+          .orWhere('username', 'like', `%${name}%`)
           .orderBy('id', 'desc')
           .paginate(page, perPage)
       : await User.query().orderBy('id', 'desc').paginate(page, perPage)
